@@ -1,0 +1,89 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "moriyama"
+version = "0.1.0"
+description = "Moriyama"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+dependencies = [
+    "PySide6>=6.7",
+]
+
+[project.scripts]
+moriyama = "moriyama.__main__:main"
+
+[project.gui-scripts]
+moriyama-gui = "moriyama.__main__:main"
+
+# ---------------------------------------------------------------------------
+# uv
+# ---------------------------------------------------------------------------
+[dependency-groups]
+dev = [
+    "briefcase>=0.3",
+    "pytest>=8",
+    "pytest-qt>=4",
+    "ruff>=0.4",
+]
+
+# ---------------------------------------------------------------------------
+# Hatch
+# ---------------------------------------------------------------------------
+[tool.hatch.build.targets.wheel]
+packages = ["src/moriyama"]
+
+# ---------------------------------------------------------------------------
+# Briefcase  (cross-platform bundler)
+# ---------------------------------------------------------------------------
+[tool.briefcase]
+project_name = "Moriyama"
+bundle = "land.charm.moriyama"
+version = "0.1.0"
+url = "https://github.com/example/moriyama"
+license = "MIT"
+author = "Author"
+author_email = "author@example.com"
+
+[tool.briefcase.app.moriyama]
+formal_name = "Moriyama"
+description = "Moriyama"
+icon = "resources/icon"
+sources = ["src/moriyama"]
+requires = [
+    "PySide6>=6.7",
+]
+
+[tool.briefcase.app.moriyama.macOS]
+universal_build = true
+requires = []
+
+[tool.briefcase.app.moriyama.linux]
+requires = []
+system_requires = []
+
+[tool.briefcase.app.moriyama.linux.appimage]
+manylinux = "manylinux_2_28"
+
+[tool.briefcase.app.moriyama.windows]
+requires = []
+
+# ---------------------------------------------------------------------------
+# Ruff
+# ---------------------------------------------------------------------------
+[tool.ruff]
+src = ["src"]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP"]
+
+# ---------------------------------------------------------------------------
+# Pytest
+# ---------------------------------------------------------------------------
+[tool.pytest.ini_options]
+testpaths = ["tests"]
