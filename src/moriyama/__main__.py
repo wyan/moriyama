@@ -3,10 +3,12 @@
 from __future__ import annotations
 
 import sys
-import time
 
+from PySide6.QtCore import QTimer
+from PySide6.QtGui import QPixmap
 from PySide6.QtWidgets import QApplication, QLabel, QMainWindow
 
+import moriyama.resources_rc  # noqa: F401
 from moriyama.splash import SplashScreen
 
 
@@ -20,19 +22,23 @@ class MainWindow(QMainWindow):
 def main() -> None:
     app = QApplication(sys.argv)
 
-    splash = SplashScreen()
+    splash = SplashScreen(pixmap=QPixmap(":/images/splash.png"))
     splash.show()
-    app.processEvents()  # ensure the splash is painted before heavy work starts
+    splash.raise_()
+    splash.activateWindow()
 
-    # --- heavy initialisation would go here ---
+    app.processEvents()
     splash.set_status("Loading resources…")
-    time.sleep(2)
-    # do_something_slow()
 
     window = MainWindow()
-    window.show()
 
-    splash.finish(window)  # hides splash, reveals main window
+    def on_ready() -> None:
+        window.show()
+        splash.finish(window)
+
+    # --- heavy initialisation would go here ---
+    # do_something_slow()
+    QTimer.singleShot(2000, on_ready)
     sys.exit(app.exec())
 
 

@@ -9,7 +9,7 @@ from PySide6.QtGui import QColor, QFont, QPainter, QPixmap
 from PySide6.QtWidgets import QSplashScreen
 
 
-def _make_placeholder_pixmap(width: int = 600, height: int = 340) -> QPixmap:
+def _make_placeholder_pixmap(width: int = 640, height: int = 400) -> QPixmap:
     """Return a simple painted pixmap used as the default splash image.
 
     Replace this function (or pass a pre-loaded QPixmap to SplashScreen) once
@@ -27,7 +27,7 @@ def _make_placeholder_pixmap(width: int = 600, height: int = 340) -> QPixmap:
     font.setPointSize(36)
     font.setBold(True)
     painter.setFont(font)
-    painter.setPen(QColor("#cdd6f4"))
+    painter.setPen(QColor("#000"))
     painter.drawText(pixmap.rect(), Qt.AlignmentFlag.AlignCenter, "Moriyama")
 
     # Subtitle / version — easy to swap for real text later
@@ -76,7 +76,7 @@ class SplashScreen(QSplashScreen):
         self.showMessage(
             message,
             Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignBottom,
-            QColor("#cdd6f4"),
+            QColor("#000"),
         )
 
     # ------------------------------------------------------------------

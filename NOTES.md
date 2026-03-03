@@ -56,6 +56,65 @@ Current state: project skeleton only, no real application code yet.
 
 ---
 
+## Qt resource system (images, icons, etc.)
+
+Qt uses a virtual filesystem addressed with `:/prefix/file` URIs.
+To add an image (e.g. the splash screen):
+
+1. **Place the file** at `resources/images/splash.png` (or any subfolder under `resources/`).
+
+2. **Create / update** `resources/resources.qrc`:
+   ```xml
+   <!DOCTYPE RCC>
+   <RCC version="1.0">
+       <qresource prefix="/images">
+           <file alias="splash.png">images/splash.png</file>
+       </qresource>
+   </RCC>
+   ```
+
+3. **Compile** (re-run whenever images change):
+   ```bash
+   just compile-resources
+   # or, without just:
+   uv run python scripts/compile_resources.py
+   ```
+   `scripts/compile_resources.py` discovers all `*.qrc` files in `resources/`
+   automatically — no manual updates needed when adding new `.qrc` files.
+
+4. **Import** the compiled module once at startup (the import registers all resources):
+   ```python
+   import moriyama.resources_rc  # noqa: F401
+   ```
+
+5. **Use** the URI anywhere in the app:
+   ```python
+   QPixmap(":/images/splash.png")
+   ```
+
+> `resources_rc.py` is a generated file — add it to `.gitignore` or commit it,
+> but never edit it by hand.
+
+### Task runner — `just`
+
+`uv` has no built-in task runner. We use `just` (`brew install just`).
+All common tasks are in `Justfile` at the repo root:
+
+```
+just                    # list all recipes
+just compile-resources  # recompile .qrc → *_rc.py
+just run                # uv run moriyama
+just test               # uv run pytest
+just lint               # ruff check + format check
+just fmt                # ruff autofix + reformat
+just build              # briefcase build
+just package            # briefcase package (.dmg / AppImage / MSI)
+```
+
+On Windows without `just`, every recipe maps directly to its `uv run …` equivalent.
+
+---
+
 ## What has NOT been done yet
 
 - No real application logic — only a `QMainWindow` with a `QLabel("Hello, World!")`.
