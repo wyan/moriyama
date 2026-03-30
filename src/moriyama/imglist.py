@@ -16,7 +16,7 @@ from PySide6.QtWidgets import (
 
 
 class ImageList(QWidget):
-    THUMBNAIL_SIZE = 80
+    THUMBNAIL_SIZE = 160
 
     files_added = Signal(list)
 
