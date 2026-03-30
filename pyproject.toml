@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "moriyama"
+name = "Moriyama"
 version = "0.1.0"
 description = "Moriyama"
 readme = "README.md"
@@ -58,6 +58,7 @@ requires = [
 ]
 
 [tool.briefcase.app.moriyama.macOS]
+min_os_version = "13.0"
 universal_build = true
 requires = []
 
