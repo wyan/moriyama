@@ -30,16 +30,6 @@ class ImageList(QWidget):
         self._layout.setSpacing(4)
         self._layout.setContentsMargins(0, 0, 0, 0)
 
-        self._button_layout = QHBoxLayout()
-        self._button_layout.addStretch()
-
-        self._add_button = QPushButton("+")
-        self._add_button.setFixedSize(40, 40)
-        self._add_button.clicked.connect(self._open_file_picker)
-        self._button_layout.addWidget(self._add_button)
-
-        self._layout.addLayout(self._button_layout)
-
         self._scroll_area = QScrollArea()
         self._scroll_area.setWidgetResizable(True)
         self._scroll_area.setHorizontalScrollBarPolicy(Qt.ScrollBarAsNeeded)
@@ -50,6 +40,12 @@ class ImageList(QWidget):
         self._thumbnails_layout = QHBoxLayout(self._thumbnails_widget)
         self._thumbnails_layout.setSpacing(4)
         self._thumbnails_layout.setContentsMargins(0, 0, 0, 0)
+
+        self._add_button = QPushButton("+")
+        self._add_button.setFixedSize(self.THUMBNAIL_SIZE, self.THUMBNAIL_SIZE)
+        self._add_button.clicked.connect(self._open_file_picker)
+        self._thumbnails_layout.addWidget(self._add_button)
+
         self._thumbnails_layout.addStretch()
 
         self._scroll_area.setWidget(self._thumbnails_widget)
